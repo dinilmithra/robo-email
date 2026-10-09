@@ -11,6 +11,13 @@ dependencies = [
 packages = [{ include = "robo_email" }]
 exclude = ["tools/**"]
 
+[tool.poetry.group.dev.dependencies]
+black = "26.5.1"
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+
 [build-system]
 requires = ["poetry-core==2.5.0"]
 build-backend = "poetry.core.masonry.api"
