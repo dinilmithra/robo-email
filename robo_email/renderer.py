@@ -257,7 +257,6 @@ class EmailReportGenerator:
                         fontsize=8,
                     )
 
-
     DEFAULT_PLACEHOLDERS = {
         "title": "__ROBO_EMAIL_TITLE__",
         "summary_chart": "__ROBO_EMAIL_SUMMARY_CHART_CELL__",
@@ -426,5 +425,7 @@ class EmailReportGenerator:
             chart_specs=chart_specs,
         )
         Path(filename).write_text(content, encoding="utf-8")
-        logger.info("Email HTML report rendered from %s and saved to %s", json_path, filename)
+        logger.info(
+            "Email HTML report rendered from %s and saved to %s", json_path, filename
+        )
         return filename

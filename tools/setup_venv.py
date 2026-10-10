@@ -70,7 +70,9 @@ def main() -> int:
 
     # Clear cached PyPI metadata before dependency resolution so newly published
     # package versions are visible to Poetry.
-    _run([str(python), "-m", "poetry", "cache", "clear", "PyPI", "--all", "-n"], env=env)
+    _run(
+        [str(python), "-m", "poetry", "cache", "clear", "PyPI", "--all", "-n"], env=env
+    )
 
     # Keep poetry.lock synchronized with pyproject.toml, then install this project
     # and its dependencies into the local .venv.

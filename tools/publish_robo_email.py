@@ -96,7 +96,9 @@ def _poetry_executable() -> str:
     )
 
 
-def run_poetry(*args: str, env: dict[str, str] | None = None, capture_output: bool = False) -> subprocess.CompletedProcess[str]:
+def run_poetry(
+    *args: str, env: dict[str, str] | None = None, capture_output: bool = False
+) -> subprocess.CompletedProcess[str]:
     command = [_poetry_executable(), *args]
     print("> " + subprocess.list2cmdline(command))
     return subprocess.run(
@@ -158,7 +160,9 @@ def publish_package(version: str) -> None:
 
     publish_env = os.environ.copy()
     publish_env["POETRY_PYPI_TOKEN_PYPI"] = token
-    print(f"Publishing version {version} using token from environment variable: {token_source}")
+    print(
+        f"Publishing version {version} using token from environment variable: {token_source}"
+    )
     run_poetry("publish", env=publish_env)
     print(f"Published successfully: {version}")
 

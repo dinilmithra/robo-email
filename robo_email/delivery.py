@@ -62,7 +62,9 @@ def send_powershell_email(
     if suppress_duplicates:
         with _email_sent_lock:
             if _email_sent:
-                logger.info("Email already sent for this process; skipping duplicate send.")
+                logger.info(
+                    "Email already sent for this process; skipping duplicate send."
+                )
                 return False
             _email_sent = True
 
