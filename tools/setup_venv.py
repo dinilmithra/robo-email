@@ -62,11 +62,14 @@ def main() -> int:
         venv.EnvBuilder(with_pip=True, clear=True).create(VENV_DIR)
 
     python = _venv_python()
-    _run([str(python), "-m", "pip", "install", "--upgrade", "pip"])
-    _run([str(python), "-m", "pip", "install", f"poetry=={POETRY_VERSION}"])
-
     env = os.environ.copy()
+    env["VIRTUAL_ENV"] = str(VENV_DIR)
+    env["PATH"] = str(python.parent) + os.pathsep + env.get("PATH", "")
     env["POETRY_VIRTUALENVS_CREATE"] = "false"
+    env["POETRY_VIRTUALENVS_IN_PROJECT"] = "true"
+
+    _run([str(python), "-m", "pip", "install", "--upgrade", "pip"], env=env)
+    _run([str(python), "-m", "pip", "install", f"poetry=={POETRY_VERSION}"], env=env)
 
     # Clear cached PyPI metadata before dependency resolution so newly published
     # package versions are visible to Poetry.
@@ -78,7 +81,8 @@ def main() -> int:
     # and its dependencies into the local .venv.
     _run([str(python), "-m", "poetry", "lock"], env=env)
     _run([str(python), "-m", "poetry", "install"], env=env)
-    _run([str(python), "-m", "poetry", "--version"])
+    _run([str(python), "-m", "poetry", "--version"], env=env)
+    _run([str(python), "-m", "pip", "check"], env=env)
 
     print("\nrobo-email virtual environment is ready.")
     print(f"Python: {python}")
